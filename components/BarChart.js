@@ -40,7 +40,7 @@ function TypeChart({ group, max }) {
         }}
       >
         <VictoryBar
-          data={[{ x: 1, y: group.closed || 0.1, label: String(group.closed) }]}
+          data={[{ x: 1, y: group.closed, label: String(group.closed) }]}
           style={{
             labels: {
               fill: "var(--text-secondary)"
@@ -51,7 +51,7 @@ function TypeChart({ group, max }) {
           data={[
             {
               x: 1,
-              y: group.inProgress || 0.1,
+              y: group.inProgress,
               label: String(group.inProgress)
             }
           ]}
@@ -62,7 +62,7 @@ function TypeChart({ group, max }) {
           }}
         />
         <VictoryBar
-          data={[{ x: 1, y: group.open || 0.1, label: String(group.open) }]}
+          data={[{ x: 1, y: group.open, label: String(group.open) }]}
           style={{
             labels: {
               fill: "var(--text-secondary)"
@@ -109,18 +109,31 @@ function BarChart({ className, data }) {
   );
   return (
     <Section className={cx(className, "barChart")} title="Event Status">
-      <div className={css.container}>
-        <label>Car Accident</label>
-        <TypeChart max={max} group={grouped.accident} />
-        <label>Emergency Response</label>
-        <TypeChart max={max} group={grouped.emergency} />
-        <label>Potholes</label>
-        <TypeChart max={max} group={grouped.pothole} />
-        <label>Bicycles</label>
-        <TypeChart max={max} group={grouped.bicycle} />
-        <label>Road Construction</label>
-        <TypeChart max={max} group={grouped.construction} />
-      </div>
+      {data.length ? (
+        <div className={css.container}>
+          <label>Car Accident</label>
+          <TypeChart max={max} group={grouped.accident} />
+          <label>Emergency Response</label>
+          <TypeChart max={max} group={grouped.emergency} />
+          <label>Potholes</label>
+          <TypeChart max={max} group={grouped.pothole} />
+          <label>Bicycles</label>
+          <TypeChart max={max} group={grouped.bicycle} />
+          <label>Road Construction</label>
+          <TypeChart max={max} group={grouped.construction} />
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%"
+          }}
+        >
+          No events available
+        </div>
+      )}
     </Section>
   );
 }
