@@ -1,0 +1,41 @@
+.weather {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto repeat(5, 48px);
+  align-items: center;
+  grid-gap: 16px;
+  color: var(--text-secondary);
+}
+
+.header {
+  grid-row: 1;
+  grid-column: 1 / 7;
+}
+
+.time {
+  grid-column: 1;
+  padding-inline-start: 16px;
+}
+
+.weather time {
+  display: block;
+}
+
+.weather time.currentTime {
+  font-size: 1.75rem;
+}
+
+.weather time.currentDate {
+  font-size: 1rem;
+  color: #5c6c8a;
+}
+
+.day {
+  text-align: center;
+}
+
+.day img {
+  height: 32px;
+  width: 32px;
+  margin: 8px;
+}

@@ -1,0 +1,22 @@
+.container {
+  height: 0;
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 160px auto;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  margin-inline: -16px;
+}
+
+.container label {
+  padding-inline: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: end;
+  color: var(--text-secondary);
+}
+
+.container > label:nth-of-type(2n),
+.container > div:nth-of-type(2n) {
+  background: rgba(255, 255, 255, 0.12);
+}

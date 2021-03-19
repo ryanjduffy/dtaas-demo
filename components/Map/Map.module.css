@@ -1,0 +1,74 @@
+.dialog {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  cursor: pointer;
+}
+
+.content {
+  display: none;
+  cursor: default;
+  position: absolute;
+  border-radius: 4px;
+  box-shadow: 2px 4px 6px #000000a0;
+  padding: 16px;
+  font-size: 14px;
+  background: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+.dialog.active .content {
+  display: block;
+}
+
+.dialog.bottomLeft .content {
+  top: 100%;
+  right: 100%;
+}
+
+.dialog.topLeft .content {
+  bottom: 100%;
+  right: 100%;
+}
+
+.dialog.bottomRight .content {
+  top: 100%;
+  left: 100%;
+}
+
+.dialog.topRight .content {
+  bottom: 100%;
+  left: 100%;
+}
+
+.map {
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  padding: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.mapContainer {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -16px -16px;
+}
+
+.select {
+  display: block;
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 100;
+  border-radius: 4px;
+  background-color: var(--background-secondary);
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.4);
+}
+
+.select.hasSelected {
+  display: none;
+}

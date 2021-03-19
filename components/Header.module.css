@@ -1,0 +1,9 @@
+.header {
+  padding: 0 16px 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-bottom: 1px solid var(--text-secondary);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-weight: 700;
+}

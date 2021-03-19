@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+:root {
+  --background-primary: #08112b;
+  --background-header: #101b41;
+  --background-secondary: #112544;
+
+  --text-primary: #ffffff;
+  --text-secondary: #b5c0de;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+
+  background-color: var(--background-primary);
+  font-family: "Lato", sans-serif;
+}

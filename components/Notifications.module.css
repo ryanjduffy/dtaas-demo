@@ -1,0 +1,27 @@
+.notification {
+  border-radius: 50%;
+  position: relative;
+  height: 32px;
+  width: 32px;
+  text-align: center;
+  line-height: 32px;
+  background-color: #fff;
+  background-image: url("/images/Alarm_Off.svg");
+  background-position: center;
+  background-size: contain;
+  margin-inline-start: 8px;
+}
+
+.badge {
+  top: -6px;
+  left: calc(50% + 6px);
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  line-height: 16px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+}
