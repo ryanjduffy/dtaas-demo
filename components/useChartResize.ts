@@ -14,7 +14,7 @@ function useChartResize(initialAspectRatio, factor = 1) {
 
     const debounce = () => {
       clearTimeout(id);
-      setTimeout(handler, 200);
+      id = setTimeout(handler, 200);
     };
 
     window.addEventListener("resize", debounce);

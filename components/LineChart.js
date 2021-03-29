@@ -47,7 +47,7 @@ function byHour(acc, v) {
 }
 
 function LineChart({ className, data, mode, onSelectMode }) {
-  const { ref, aspectRatio } = useChartResize(8 / 3, 1);
+  const { ref, aspectRatio } = useChartResize(8 / 2.5, 1);
 
   const domain = useMemo(() => {
     const now = new Date();
