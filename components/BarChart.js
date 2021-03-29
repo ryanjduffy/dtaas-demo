@@ -9,6 +9,7 @@ import {
 } from "victory";
 
 import Section from "../components/Section";
+import typeToLabel from "../util/eventTypes";
 
 import css from "./BarChart.module.css";
 const cx = classnames.bind(css);
@@ -40,7 +41,7 @@ function TypeChart({ group, max }) {
         }}
       >
         <VictoryBar
-          data={[{ x: 1, y: group.closed, label: String(group.closed) }]}
+          data={[{ x: 1, y: group.closed || 0.1, label: String(group.closed) }]}
           style={{
             labels: {
               fill: "var(--text-secondary)"
@@ -51,7 +52,7 @@ function TypeChart({ group, max }) {
           data={[
             {
               x: 1,
-              y: group.inProgress,
+              y: group.inProgress || 0.1,
               label: String(group.inProgress)
             }
           ]}
@@ -62,7 +63,7 @@ function TypeChart({ group, max }) {
           }}
         />
         <VictoryBar
-          data={[{ x: 1, y: group.open, label: String(group.open) }]}
+          data={[{ x: 1, y: group.open || 0.1, label: String(group.open) }]}
           style={{
             labels: {
               fill: "var(--text-secondary)"
@@ -76,64 +77,32 @@ function TypeChart({ group, max }) {
 
 function BarChart({ className, data }) {
   const grouped = useMemo(() => {
-    return data.reduce(
-      (acc, d) => {
-        acc[d.eventType][d.status || "open"]++;
-        return acc;
-      },
-      {
-        accident: { closed: 0, inProgress: 0, open: 0 },
-        emergency: { closed: 0, inProgress: 0, open: 0 },
-        pothole: { closed: 0, inProgress: 0, open: 0 },
-        bicycle: { closed: 0, inProgress: 0, open: 0 },
-        construction: { closed: 0, inProgress: 0, open: 0 }
+    return data.reduce((acc, d) => {
+      if (!acc[d.eventType]) {
+        acc[d.eventType] = { closed: 0, inProgress: 0, open: 0 };
       }
-    );
+      acc[d.eventType][d.status || "open"]++;
+      return acc;
+    }, {});
   }, [data]);
-  const max = Math.max(
-    grouped.accident.closed,
-    grouped.accident.inProgress,
-    grouped.accident.open,
-    grouped.emergency.closed,
-    grouped.emergency.inProgress,
-    grouped.emergency.open,
-    grouped.pothole.closed,
-    grouped.pothole.inProgress,
-    grouped.pothole.open,
-    grouped.bicycle.closed,
-    grouped.bicycle.inProgress,
-    grouped.bicycle.open,
-    grouped.construction.closed,
-    grouped.construction.inProgress,
-    grouped.construction.open
+
+  const max = Object.keys(grouped).reduce(
+    (acc, k) =>
+      Math.max(acc, grouped[k].closed, grouped[k].inProgress, grouped[k].open),
+    0
   );
   return (
     <Section className={cx(className, "barChart")} title="Event Status">
-      {data.length ? (
-        <div className={css.container}>
-          <label>Car Accident</label>
-          <TypeChart max={max} group={grouped.accident} />
-          <label>Emergency Response</label>
-          <TypeChart max={max} group={grouped.emergency} />
-          <label>Potholes</label>
-          <TypeChart max={max} group={grouped.pothole} />
-          <label>Bicycles</label>
-          <TypeChart max={max} group={grouped.bicycle} />
-          <label>Road Construction</label>
-          <TypeChart max={max} group={grouped.construction} />
-        </div>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%"
-          }}
-        >
-          No events available
-        </div>
-      )}
+      <div className={css.container}>
+        {Object.keys(grouped)
+          .sort((a, b) => typeToLabel(a).localeCompare(typeToLabel(b)))
+          .map((type, i) => (
+            <React.Fragment key={"event-status-" + type + i}>
+              <label>{typeToLabel(type)}</label>
+              <TypeChart max={max} group={grouped[type]} />
+            </React.Fragment>
+          ))}
+      </div>
     </Section>
   );
 }

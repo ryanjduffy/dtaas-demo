@@ -3,8 +3,11 @@
   flex: 1 1 auto;
   display: grid;
   grid-template-columns: 160px auto;
-  grid-template-rows: repeat(5, minmax(0, 1fr));
+  /*grid-template-rows: repeat(5, minmax(35px, 1fr));*/
+  grid-template-rows: 35px;
+  grid-auto-rows: 35px;
   margin-inline: -16px;
+  overflow-y: auto;
 }
 
 .container label {
@@ -14,6 +17,10 @@
   justify-content: flex-end;
   text-align: end;
   color: var(--text-secondary);
+}
+
+.container svg {
+  pointer-events: none !important;
 }
 
 .container > label:nth-of-type(2n),

@@ -9,6 +9,8 @@ import React, {
   useState
 } from "react";
 
+import typeToLabel from "../../util/eventTypes";
+
 import PinIcon from "./PinIcon";
 
 import css from "./Map.module.css";
@@ -78,7 +80,7 @@ function MapPin({ onSelect, point, ...rest }) {
       ref={ref}
     >
       <PinIcon />
-      <div className={css.content}>{point.eventType}</div>
+      <div className={css.content}>{typeToLabel(point.eventType)}</div>
     </div>
   );
 }
