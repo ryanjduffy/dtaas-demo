@@ -11,6 +11,13 @@
   padding-left: 24px;
 }
 
+.details pre {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+}
+
 .details::before {
   content: "";
   position: absolute;
@@ -72,6 +79,7 @@
 
 .info td:first-child {
   text-align: right;
+  align-self: flex-start;
 }
 
 .info td:last-child {

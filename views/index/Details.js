@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 
 import Header from "../../components/Header";
@@ -6,6 +6,7 @@ import Section from "../../components/Section";
 
 import css from "./Details.module.css";
 import typeToLabel from "../../util/eventTypes";
+import { mapboxToken } from "../../util/geo";
 
 const mapStatusToLabel = (status) => {
   const map = {
@@ -17,7 +18,28 @@ const mapStatusToLabel = (status) => {
   return map[status] || map.open;
 };
 
+function useReverseGeocoding({ token, lat, lon }) {
+  const [placeName, setPlaceName] = useState();
+  useEffect(() => {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${token}`
+    )
+      .then((resp) => resp.json())
+      .then((data) => {
+        const f = data.features[0];
+        setPlaceName(f && f.place_name);
+      });
+  }, [lat, lon]);
+
+  return { placeName };
+}
+
 const Details = ({ selected, onClose, onNotify }) => {
+  const { placeName } = useReverseGeocoding({
+    token: mapboxToken,
+    ...selected.location,
+  });
+
   return (
     <div className={css.details}>
       <Header className={css.nav}>
@@ -35,8 +57,13 @@ const Details = ({ selected, onClose, onNotify }) => {
             <tr>
               <td>Location</td>
               <td>
-                [{Math.round(selected.location.lat * 1000) / 1000},{" "}
-                {Math.round(selected.location.lon * 1000) / 1000}]
+                <pre>
+                  {placeName &&
+                    placeName
+                      .split(",")
+                      .map((s) => s.trim())
+                      .join("\n")}
+                </pre>
               </td>
             </tr>
             <tr>

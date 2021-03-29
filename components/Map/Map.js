@@ -9,6 +9,8 @@ import { StaticMap } from "react-map-gl";
 import Header from "../Header.js";
 import DataGrid from "../DataGrid.js";
 
+import { mapboxToken } from "../../util/geo";
+
 import MapPin, { TooltipProvider } from "./MapPin";
 
 import css from "./Map.module.css";
@@ -51,7 +53,7 @@ function renderPoints(points, onSelect) {
       bounds[0] - dx,
       bounds[1] - dy,
       bounds[2] + dx,
-      bounds[3] + dy
+      bounds[3] + dy,
     ];
 
     return (
@@ -92,7 +94,7 @@ function withTransition(viewState) {
   return {
     ...viewState,
     transitionDuration: 500,
-    transitionInterpolator: new FlyToInterpolator()
+    transitionInterpolator: new FlyToInterpolator(),
   };
 }
 
@@ -107,7 +109,7 @@ function Map({
   selected,
   types,
   selectedTypes,
-  onSelectType
+  onSelectType,
 }) {
   const handleSelect = (entry) => {
     if (onSelect) onSelect(entry);
@@ -120,7 +122,7 @@ function Map({
           ...current,
           latitude: selected.location.lat,
           longitude: selected.location.lon,
-          zoom: 17
+          zoom: 17,
         })
       );
     }
@@ -158,7 +160,7 @@ function Map({
         // coordinateSystem: COORDINATE_SYSTEM.LNGLAT,
         // highlightColor: [0, 0, 128, 128],
         // modelMatrix: null,
-        opacity: 0.6
+        opacity: 0.6,
         // visible: true,
         // wrapLongitude: false,
       })
@@ -178,9 +180,9 @@ function Map({
           >
             {renderPoints(data, handleSelect)}
             <StaticMap
-              mapboxApiAccessToken="pk.eyJ1IjoicnlhbmpkdWZmeSIsImEiOiJja2V5Z2s3a3IwMXFtMnJsZXNkZWJua2NlIn0.XTbixJu__DE2mzV15eH5sg"
+              mapboxApiAccessToken={mapboxToken}
               mapOptions={{
-                style: "mapbox://styles/ryanjduffy/ckmb3y3qk5sxg17s3ypkuz41i"
+                style: "mapbox://styles/ryanjduffy/ckmb3y3qk5sxg17s3ypkuz41i",
               }}
             />
           </DeckGL>
