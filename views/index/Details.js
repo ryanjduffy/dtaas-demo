@@ -5,12 +5,13 @@ import Header from "../../components/Header";
 import Section from "../../components/Section";
 
 import css from "./Details.module.css";
+import typeToLabel from "../../util/eventTypes";
 
 const mapStatusToLabel = (status) => {
   const map = {
     open: "Active",
     inProgress: "In Progress",
-    closed: "Closed"
+    closed: "Closed",
   };
 
   return map[status] || map.open;
@@ -29,11 +30,14 @@ const Details = ({ selected, onClose, onNotify }) => {
           <tbody>
             <tr>
               <td>Type</td>
-              <td>{selected.eventType}</td>
+              <td>{typeToLabel(selected.eventType)}</td>
             </tr>
             <tr>
               <td>Location</td>
-              <td>???</td>
+              <td>
+                [{Math.round(selected.location.lat * 1000) / 1000},{" "}
+                {Math.round(selected.location.lon * 1000) / 1000}]
+              </td>
             </tr>
             <tr>
               <td>Date</td>
@@ -82,7 +86,7 @@ const Details = ({ selected, onClose, onNotify }) => {
             flex: 1,
             display: "flex",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
         >
           No Image Available

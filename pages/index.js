@@ -8,9 +8,9 @@ import useElasticSearch from "../components/useElasticSearch";
 import useNotifications from "../components/useNotifications";
 import * as time from "../util/time";
 
-import Details from "./index/Details";
-import Overview from "./index/Overview";
-import css from "./index/index.module.css";
+import Details from "../views/index/Details";
+import Overview from "../views/index/Overview";
+import css from "../views/index/index.module.css";
 
 // Viewport settings
 const INITIAL_VIEW_STATE = {

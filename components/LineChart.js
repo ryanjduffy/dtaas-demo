@@ -1,4 +1,5 @@
 import classnames from "classnames/bind";
+import { format } from "date-fns";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
 import React, { useMemo, useState } from "react";
 import {
@@ -6,17 +7,32 @@ import {
   VictoryChart,
   VictoryStack,
   VictoryArea,
-  VictoryTheme
+  VictoryTheme,
 } from "victory";
+
+import useChartResize from "./useChartResize.ts";
 
 import css from "./LineChart.module.css";
 const cx = classnames.bind(css);
 
+function dayOfYear(date) {
+  return (
+    (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
+      Date.UTC(date.getFullYear(), 0, 0)) /
+    24 /
+    60 /
+    60 /
+    1000
+  );
+}
+
 function byDate(acc, v) {
   const d = new Date(v.ts);
-  const date = d.getDate() - 1;
-  acc[date] = acc[date] || { x: date, y: 0 };
-  acc[date].y += 1;
+  const day = dayOfYear(d);
+  const entry = acc.find((v) => v.x === day);
+  if (entry) {
+    entry.y += 1;
+  }
 
   return acc;
 }
@@ -30,34 +46,49 @@ function byHour(acc, v) {
   return acc;
 }
 
-function week(data) {
-  return data.reduce(byDate, []);
-}
-
-function month(data) {
-  return data.reduce(byDate, []);
-}
-
-function quarter(data) {
-  return data.reduce(byDate, []);
-}
-
-function today(data) {
-  return data.reduce(byHour, []);
-}
-
 function LineChart({ className, data, mode, onSelectMode }) {
-  const grouped = useMemo(() => {
+  const { ref, aspectRatio } = useChartResize(8 / 3, 1);
+
+  const domain = useMemo(() => {
+    const now = new Date();
+    const today = dayOfYear(now);
     if (mode === "quarter") {
-      return quarter(data);
+      return [today - 89, today];
     } else if (mode === "month") {
-      return month(data);
+      return [today - 30, today];
     } else if (mode === "week") {
-      return week(data);
+      return [today - 6, today];
     } else if (mode === "day") {
-      return today(data);
+      return [0, 24];
     }
-  }, [data, mode]);
+  }, [mode]);
+
+  const tickCount = useMemo(() => {
+    if (mode === "quarter") {
+      return 6;
+    } else if (mode === "month") {
+      return 4;
+    } else if (mode === "week") {
+      return 7;
+    } else if (mode === "day") {
+      return 8;
+    }
+  }, [mode]);
+
+  const grouped = useMemo(() => {
+    const initial = Array.from(
+      { length: domain[1] - domain[0] + 1 },
+      (_, i) => {
+        return { x: domain[0] + i, y: 0 };
+      }
+    );
+
+    if (mode === "day") {
+      return data.reduce(byHour, initial);
+    }
+
+    return data.reduce(byDate, initial);
+  }, [data, domain, mode]);
 
   return (
     <div className={cx(className, "chart")}>
@@ -73,33 +104,47 @@ function LineChart({ className, data, mode, onSelectMode }) {
           <MenuItem value="quarter">This Quarter</MenuItem>
         </Select>
       </FormControl>
-      <VictoryChart
-        height={200}
-        width={800}
-        padding={24}
-        theme={VictoryTheme.material}
-        animate={{ duration: 1000 }}
-      >
-        <VictoryAxis
-          style={{
-            grid: { stroke: "transparent" },
-            tickLabels: {
-              fill: "var(--text-secondary)"
-            }
-          }}
-        />
-        <VictoryAxis
-          dependentAxis
-          style={{
-            tickLabels: {
-              fill: "var(--text-secondary)"
-            }
-          }}
-        />
-        <VictoryStack colorScale={["#43d3bd"]}>
-          <VictoryArea data={grouped} interpolation="basis" />
-        </VictoryStack>
-      </VictoryChart>
+      <div className={css.wrapper} ref={ref}>
+        <VictoryChart
+          height={800 / aspectRatio}
+          width={800}
+          padding={{ top: 24, left: 48, right: 24, bottom: 48 }}
+          theme={VictoryTheme.material}
+          animate={{ duration: 1000 }}
+          domain={{ x: domain }}
+          tickCount={tickCount}
+        >
+          <VictoryAxis
+            tickFormat={(d) => {
+              const dt = new Date(new Date().getFullYear(), 0, d);
+              if (mode === "day") {
+                dt.setHours(d);
+                return format(dt, "h aa");
+              } else if (mode === "week") {
+                return format(dt, "MM/dd eeee").split(" ").join("\n");
+              }
+              return format(dt, "MMM dd");
+            }}
+            style={{
+              grid: { stroke: "transparent" },
+              tickLabels: {
+                fill: "var(--text-secondary)",
+              },
+            }}
+          />
+          <VictoryAxis
+            dependentAxis
+            style={{
+              tickLabels: {
+                fill: "var(--text-secondary)",
+              },
+            }}
+          />
+          <VictoryStack colorScale={["#43d3bd"]}>
+            <VictoryArea data={grouped} interpolation="basis" />
+          </VictoryStack>
+        </VictoryChart>
+      </div>
     </div>
   );
 }

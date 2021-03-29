@@ -1,77 +1,85 @@
 import classnames from "classnames/bind";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   VictoryAxis,
   VictoryChart,
   VictoryBar,
   VictoryGroup,
-  VictoryTheme
+  VictoryTheme,
 } from "victory";
 
 import Section from "../components/Section";
 import typeToLabel from "../util/eventTypes";
 
+import useChartResize from "./useChartResize.ts";
+
 import css from "./BarChart.module.css";
 const cx = classnames.bind(css);
 
 function TypeChart({ group, max }) {
+  const { ref: wrapperRef, aspectRatio } = useChartResize(500, 50);
+
   return (
-    <VictoryChart
-      theme={VictoryTheme.material}
-      height={10}
-      width={1000}
-      padding={{ right: 48 }}
-      domain={[0, max]}
-    >
-      <VictoryAxis
-        style={{
-          axis: { stroke: "transparent" },
-          ticks: { stroke: "transparent" },
-          tickLabels: { fill: "transparent" },
-          grid: { stroke: "transparent" }
-        }}
-      />
-      <VictoryGroup
-        horizontal
-        offset={10}
-        style={{ data: { width: 3 } }}
-        colorScale={["#fe012e", "#ff9a00", "#51ff87"]}
-        animate={{
-          duration: 2000
-        }}
+    <div ref={wrapperRef}>
+      <VictoryChart
+        theme={VictoryTheme.material}
+        height={1}
+        width={aspectRatio}
+        padding={{ right: 48 }}
+        domain={[0, max]}
       >
-        <VictoryBar
-          data={[{ x: 1, y: group.closed || 0.1, label: String(group.closed) }]}
+        <VictoryAxis
           style={{
-            labels: {
-              fill: "var(--text-secondary)"
-            }
+            axis: { stroke: "transparent" },
+            ticks: { stroke: "transparent" },
+            tickLabels: { fill: "transparent" },
+            grid: { stroke: "transparent" },
           }}
         />
-        <VictoryBar
-          data={[
-            {
-              x: 1,
-              y: group.inProgress || 0.1,
-              label: String(group.inProgress)
-            }
-          ]}
-          style={{
-            labels: {
-              fill: "var(--text-secondary)"
-            }
+        <VictoryGroup
+          horizontal
+          offset={10}
+          style={{ data: { width: 3 } }}
+          colorScale={["#fe012e", "#ff9a00", "#51ff87"]}
+          animate={{
+            duration: 2000,
           }}
-        />
-        <VictoryBar
-          data={[{ x: 1, y: group.open || 0.1, label: String(group.open) }]}
-          style={{
-            labels: {
-              fill: "var(--text-secondary)"
-            }
-          }}
-        />
-      </VictoryGroup>
-    </VictoryChart>
+        >
+          <VictoryBar
+            data={[
+              { x: 1, y: group.closed || 0.1, label: String(group.closed) },
+            ]}
+            style={{
+              labels: {
+                fill: "var(--text-secondary)",
+              },
+            }}
+          />
+          <VictoryBar
+            data={[
+              {
+                x: 1,
+                y: group.inProgress || 0.1,
+                label: String(group.inProgress),
+              },
+            ]}
+            style={{
+              labels: {
+                fill: "var(--text-secondary)",
+              },
+            }}
+          />
+          <VictoryBar
+            data={[{ x: 1, y: group.open || 0.1, label: String(group.open) }]}
+            style={{
+              labels: {
+                fill: "var(--text-secondary)",
+              },
+            }}
+          />
+        </VictoryGroup>
+      </VictoryChart>
+    </div>
   );
 }
 
