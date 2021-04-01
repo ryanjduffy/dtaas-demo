@@ -22,7 +22,7 @@ const INITIAL_VIEW_STATE = {
 };
 
 function App() {
-  const [mode, setMode] = useState("month");
+  const [mode, setMode] = useState("week");
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selected, setSelected] = useState();
   const [zoom, setZoom] = useState(INITIAL_VIEW_STATE.zoom);
