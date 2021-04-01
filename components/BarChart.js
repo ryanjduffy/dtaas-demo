@@ -1,5 +1,5 @@
 import classnames from "classnames/bind";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   VictoryAxis,
   VictoryChart,
@@ -9,131 +9,111 @@ import {
 } from "victory";
 
 import Section from "../components/Section";
+import typeToLabel from "../util/eventTypes";
+
+import useChartResize from "./useChartResize.ts";
 
 import css from "./BarChart.module.css";
 const cx = classnames.bind(css);
 
+const barStyle = {
+  labels: {
+    fill: "var(--text-secondary)"
+  }
+};
+
+// Always use the final value for the bar label
+const formatLabel = (value) => () => value;
+
 function TypeChart({ group, max }) {
+  const { ref: wrapperRef, aspectRatio } = useChartResize(500, 50);
+
   return (
-    <VictoryChart
-      theme={VictoryTheme.material}
-      height={10}
-      width={1000}
-      padding={{ right: 48 }}
-      domain={[0, max]}
-    >
-      <VictoryAxis
-        style={{
-          axis: { stroke: "transparent" },
-          ticks: { stroke: "transparent" },
-          tickLabels: { fill: "transparent" },
-          grid: { stroke: "transparent" }
-        }}
-      />
-      <VictoryGroup
-        horizontal
-        offset={10}
-        style={{ data: { width: 3 } }}
-        colorScale={["#fe012e", "#ff9a00", "#51ff87"]}
-        animate={{
-          duration: 2000
-        }}
+    <div ref={wrapperRef}>
+      <VictoryChart
+        theme={VictoryTheme.material}
+        height={1}
+        width={aspectRatio}
+        padding={{ right: 48 }}
+        domain={[0, max]}
       >
-        <VictoryBar
-          data={[{ x: 1, y: group.closed, label: String(group.closed) }]}
+        <VictoryAxis
           style={{
-            labels: {
-              fill: "var(--text-secondary)"
-            }
+            axis: { stroke: "transparent" },
+            ticks: { stroke: "transparent" },
+            tickLabels: { fill: "transparent" },
+            grid: { stroke: "transparent" }
           }}
         />
-        <VictoryBar
-          data={[
-            {
-              x: 1,
-              y: group.inProgress,
-              label: String(group.inProgress)
-            }
-          ]}
-          style={{
-            labels: {
-              fill: "var(--text-secondary)"
-            }
+        <VictoryGroup
+          horizontal
+          offset={10}
+          style={{ data: { width: 3 } }}
+          colorScale={["#fe012e", "#ff9a00", "#51ff87"]}
+          animate={{
+            duration: 2000
           }}
-        />
-        <VictoryBar
-          data={[{ x: 1, y: group.open, label: String(group.open) }]}
-          style={{
-            labels: {
-              fill: "var(--text-secondary)"
-            }
-          }}
-        />
-      </VictoryGroup>
-    </VictoryChart>
+        >
+          <VictoryBar
+            data={[{ x: 1, y: group.closed }]}
+            style={barStyle}
+            labels={formatLabel(group.closed)}
+          />
+          <VictoryBar
+            data={[
+              {
+                x: 1,
+                y: group.inProgress
+              }
+            ]}
+            style={barStyle}
+            labels={formatLabel(group.inProgress)}
+          />
+          <VictoryBar
+            data={[{ x: 1, y: group.open }]}
+            style={barStyle}
+            labels={formatLabel(group.open)}
+          />
+        </VictoryGroup>
+      </VictoryChart>
+    </div>
   );
 }
 
 function BarChart({ className, data }) {
   const grouped = useMemo(() => {
-    return data.reduce(
-      (acc, d) => {
-        acc[d.eventType][d.status || "open"]++;
-        return acc;
-      },
-      {
-        accident: { closed: 0, inProgress: 0, open: 0 },
-        emergency: { closed: 0, inProgress: 0, open: 0 },
-        pothole: { closed: 0, inProgress: 0, open: 0 },
-        bicycle: { closed: 0, inProgress: 0, open: 0 },
-        construction: { closed: 0, inProgress: 0, open: 0 }
+    return data.reduce((acc, d) => {
+      if (!acc[d.eventType]) {
+        acc[d.eventType] = { closed: 0, inProgress: 0, open: 0, total: 0 };
       }
-    );
+      acc[d.eventType][d.status || "open"]++;
+      acc[d.eventType].total++;
+      return acc;
+    }, {});
   }, [data]);
-  const max = Math.max(
-    grouped.accident.closed,
-    grouped.accident.inProgress,
-    grouped.accident.open,
-    grouped.emergency.closed,
-    grouped.emergency.inProgress,
-    grouped.emergency.open,
-    grouped.pothole.closed,
-    grouped.pothole.inProgress,
-    grouped.pothole.open,
-    grouped.bicycle.closed,
-    grouped.bicycle.inProgress,
-    grouped.bicycle.open,
-    grouped.construction.closed,
-    grouped.construction.inProgress,
-    grouped.construction.open
+
+  const max = Object.keys(grouped).reduce(
+    (acc, k) =>
+      Math.max(acc, grouped[k].closed, grouped[k].inProgress, grouped[k].open),
+    0
   );
   return (
     <Section className={cx(className, "barChart")} title="Event Status">
-      {data.length ? (
-        <div className={css.container}>
-          <label>Car Accident</label>
-          <TypeChart max={max} group={grouped.accident} />
-          <label>Emergency Response</label>
-          <TypeChart max={max} group={grouped.emergency} />
-          <label>Potholes</label>
-          <TypeChart max={max} group={grouped.pothole} />
-          <label>Bicycles</label>
-          <TypeChart max={max} group={grouped.bicycle} />
-          <label>Road Construction</label>
-          <TypeChart max={max} group={grouped.construction} />
-        </div>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%"
-          }}
-        >
-          No events available
-        </div>
-      )}
+      <div className={css.container}>
+        {Object.keys(grouped)
+          .sort((a, b) => {
+            return (
+              grouped[b].total - grouped[a].total ||
+              typeToLabel(a).localeCompare(typeToLabel(b))
+            );
+          })
+          .map((type) => (
+            <React.Fragment key={"event-status-" + type}>
+              <label>{typeToLabel(type)}</label>
+              <TypeChart max={max} group={grouped[type]} />
+            </React.Fragment>
+          ))}
+      </div>
     </Section>
   );
 }

@@ -1,6 +1,7 @@
 import classnames from "classnames/bind";
+import { format } from "date-fns";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   VictoryAxis,
   VictoryChart,
@@ -8,6 +9,8 @@ import {
   VictoryArea,
   VictoryTheme
 } from "victory";
+
+import useChartResize from "./useChartResize.ts";
 
 import css from "./LineChart.module.css";
 const cx = classnames.bind(css);
@@ -44,17 +47,31 @@ function byHour(acc, v) {
 }
 
 function LineChart({ className, data, mode, onSelectMode }) {
+  const { ref, aspectRatio } = useChartResize(8 / 2.5, 1);
+
   const domain = useMemo(() => {
     const now = new Date();
     const today = dayOfYear(now);
     if (mode === "quarter") {
-      return [today - 90, today];
+      return [today - 89, today];
     } else if (mode === "month") {
-      return [today - 31, today];
+      return [today - 30, today];
     } else if (mode === "week") {
-      return [today - 7, today];
+      return [today - 6, today];
     } else if (mode === "day") {
       return [0, 24];
+    }
+  }, [mode]);
+
+  const tickCount = useMemo(() => {
+    if (mode === "quarter") {
+      return 6;
+    } else if (mode === "month") {
+      return 4;
+    } else if (mode === "week") {
+      return 7;
+    } else if (mode === "day") {
+      return 8;
     }
   }, [mode]);
 
@@ -87,17 +104,27 @@ function LineChart({ className, data, mode, onSelectMode }) {
           <MenuItem value="quarter">This Quarter</MenuItem>
         </Select>
       </FormControl>
-      {grouped.length ? (
+      <div className={css.wrapper} ref={ref}>
         <VictoryChart
-          key={mode}
-          height={200}
+          height={800 / aspectRatio}
           width={800}
-          padding={24}
+          padding={{ top: 24, left: 48, right: 24, bottom: 48 }}
           theme={VictoryTheme.material}
           animate={{ duration: 1000 }}
           domain={{ x: domain }}
+          tickCount={tickCount}
         >
           <VictoryAxis
+            tickFormat={(d) => {
+              const dt = new Date(new Date().getFullYear(), 0, d);
+              if (mode === "day") {
+                dt.setHours(d);
+                return format(dt, "h aa");
+              } else if (mode === "week") {
+                return format(dt, "MM/dd eeee").split(" ").join("\n");
+              }
+              return format(dt, "MMM dd");
+            }}
             style={{
               grid: { stroke: "transparent" },
               tickLabels: {
@@ -117,18 +144,7 @@ function LineChart({ className, data, mode, onSelectMode }) {
             <VictoryArea data={grouped} interpolation="basis" />
           </VictoryStack>
         </VictoryChart>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%"
-          }}
-        >
-          No events available
-        </div>
-      )}
+      </div>
     </div>
   );
 }
