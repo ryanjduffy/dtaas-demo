@@ -46,6 +46,11 @@ function useElasticSearch({ size = 200 } = {}) {
         method: "POST",
         body: JSON.stringify({
           size: 0,
+          query: {
+            bool: {
+              filter
+            }
+          },
           aggregations: {
             grid: {
               geohash_grid: {

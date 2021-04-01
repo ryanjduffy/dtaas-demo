@@ -97,7 +97,7 @@ function App() {
   }, [fetchData, timeFilter, setData]);
 
   useEffect(() => {
-    fetchAggregate(Math.round((zoom * 12) / 30) + 1, timeFilter)
+    fetchAggregate(Math.round((zoom * 12) / 30) + 1, [timeFilter])
       .then((buckets) => {
         return buckets.map(({ key, doc_count }) => {
           const [minLat, minLon, maxLat, maxLon] = geohash.decode_bbox(key);

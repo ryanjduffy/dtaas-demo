@@ -16,6 +16,15 @@ import useChartResize from "./useChartResize.ts";
 import css from "./BarChart.module.css";
 const cx = classnames.bind(css);
 
+const barStyle = {
+  labels: {
+    fill: "var(--text-secondary)",
+  },
+};
+
+// Always use the final value for the bar label
+const formatLabel = (value) => () => value;
+
 function TypeChart({ group, max }) {
   const { ref: wrapperRef, aspectRatio } = useChartResize(500, 50);
 
@@ -46,36 +55,24 @@ function TypeChart({ group, max }) {
           }}
         >
           <VictoryBar
-            data={[
-              { x: 1, y: group.closed || 0.1, label: String(group.closed) },
-            ]}
-            style={{
-              labels: {
-                fill: "var(--text-secondary)",
-              },
-            }}
+            data={[{ x: 1, y: group.closed }]}
+            style={barStyle}
+            labels={formatLabel(group.closed)}
           />
           <VictoryBar
             data={[
               {
                 x: 1,
-                y: group.inProgress || 0.1,
-                label: String(group.inProgress),
+                y: group.inProgress,
               },
             ]}
-            style={{
-              labels: {
-                fill: "var(--text-secondary)",
-              },
-            }}
+            style={barStyle}
+            labels={formatLabel(group.inProgress)}
           />
           <VictoryBar
-            data={[{ x: 1, y: group.open || 0.1, label: String(group.open) }]}
-            style={{
-              labels: {
-                fill: "var(--text-secondary)",
-              },
-            }}
+            data={[{ x: 1, y: group.open }]}
+            style={barStyle}
+            labels={formatLabel(group.open)}
           />
         </VictoryGroup>
       </VictoryChart>
