@@ -1,15 +1,9 @@
 .weather {
   display: grid;
-  grid-template-rows: auto auto;
   grid-template-columns: auto repeat(5, 48px);
   align-items: center;
   grid-gap: 16px;
   color: var(--text-secondary);
-}
-
-.header {
-  grid-row: 1;
-  grid-column: 1 / 7;
 }
 
 .time {

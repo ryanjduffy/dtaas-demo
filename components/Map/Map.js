@@ -6,7 +6,7 @@ import DeckGL from "@deck.gl/react";
 import React, { useEffect, useMemo } from "react";
 import { StaticMap } from "react-map-gl";
 
-import Header from "../Header.js";
+import Section from "../Section.js";
 import DataGrid from "../DataGrid.js";
 
 import { mapboxToken } from "../../util/geo";
@@ -169,8 +169,7 @@ function Map({
   }, [aggregate]);
 
   return (
-    <div className={cx("map", className)}>
-      <Header className={css.mapHeader}>Map</Header>
+    <Section title="Map" className={cx("map", className)}>
       <div className={css.mapContainer}>
         <TooltipProvider>
           <DeckGL
@@ -196,7 +195,7 @@ function Map({
           />
         </div>
       </div>
-    </div>
+    </Section>
   );
 }
 

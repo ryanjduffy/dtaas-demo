@@ -10,7 +10,7 @@ import {
   VictoryTheme,
 } from "victory";
 
-import useChartResize from "./useChartResize.ts";
+import Section from "./Section";
 
 import css from "./LineChart.module.css";
 const cx = classnames.bind(css);
@@ -47,8 +47,6 @@ function byHour(acc, v) {
 }
 
 function LineChart({ className, data, mode, onSelectMode }) {
-  const { ref, aspectRatio } = useChartResize(8 / 2.5, 1);
-
   const domain = useMemo(() => {
     const now = new Date();
     const today = dayOfYear(now);
@@ -91,23 +89,28 @@ function LineChart({ className, data, mode, onSelectMode }) {
   }, [data, domain, mode]);
 
   return (
-    <div className={cx(className, "chart")}>
-      <FormControl variant="outlined">
-        <Select
-          value={mode}
-          onChange={(ev) => onSelectMode(ev.target.value)}
-          placeholder="Timeframe"
-        >
-          <MenuItem value="day">Today</MenuItem>
-          <MenuItem value="week">This Week</MenuItem>
-          <MenuItem value="month">This Month</MenuItem>
-          <MenuItem value="quarter">This Quarter</MenuItem>
-        </Select>
-      </FormControl>
-      <div className={css.wrapper} ref={ref}>
+    <Section
+      title="Event History"
+      className={cx(className, "chart")}
+      actions={
+        <FormControl variant="outlined">
+          <Select
+            value={mode}
+            onChange={(ev) => onSelectMode(ev.target.value)}
+            placeholder="Timeframe"
+          >
+            <MenuItem value="day">Today</MenuItem>
+            <MenuItem value="week">This Week</MenuItem>
+            <MenuItem value="month">This Month</MenuItem>
+            <MenuItem value="quarter">This Quarter</MenuItem>
+          </Select>
+        </FormControl>
+      }
+    >
+      <div className={css.wrapper}>
         <VictoryChart
-          height={800 / aspectRatio}
           width={800}
+          heigh={300}
           padding={{ top: 24, left: 48, right: 24, bottom: 48 }}
           theme={VictoryTheme.material}
           animate={{ duration: 1000 }}
@@ -145,7 +148,7 @@ function LineChart({ className, data, mode, onSelectMode }) {
           </VictoryStack>
         </VictoryChart>
       </div>
-    </div>
+    </Section>
   );
 }
 

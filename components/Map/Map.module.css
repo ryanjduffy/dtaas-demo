@@ -18,7 +18,7 @@
 }
 
 .dialog.selected svg {
-  --scale: 0.375;
+  --scale: 0.25;
   transform: translateY(calc(var(--scale) * -100%)) scale(calc(1 + var(--scale) * 2));
 }
 
@@ -73,15 +73,14 @@
   padding: 16px;
   border-radius: 8px;
   overflow: hidden;
-
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
 }
 
 .mapContainer {
   position: relative;
   overflow: hidden;
   margin: 0 -16px -16px;
+  flex: 1 1 auto;
+  height: 0;
 }
 
 .select {

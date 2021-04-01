@@ -7,12 +7,12 @@ import css from "./Notifications.module.css";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
-    pointerEvents: "none"
+    pointerEvents: "none",
   },
   paper: {
     pointerEvents: "auto",
-    padding: theme.spacing(1)
-  }
+    padding: theme.spacing(1),
+  },
 }));
 
 function Notifications({ onSelect, recent }) {
@@ -55,15 +55,15 @@ function Notifications({ onSelect, recent }) {
         anchorEl={anchorEl}
         className={classes.popover}
         classes={{
-          paper: classes.paper
+          paper: classes.paper,
         }}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center"
+          horizontal: "center",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
         onMouseEnter={handlePopoverEnter}
         onMouseLeave={handlePopoverClose}
@@ -74,8 +74,11 @@ function Notifications({ onSelect, recent }) {
           ? recent.map((item) => (
               <div
                 key={item._id}
-                style={{ margin: "16px 0", width: 200 }}
-                onClick={() => onSelect(item)}
+                style={{ margin: 16, width: 200 }}
+                onClick={() => {
+                  setOpen(false);
+                  onSelect(item);
+                }}
               >
                 New {typeToLabel(item.eventType)}
               </div>

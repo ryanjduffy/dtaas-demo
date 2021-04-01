@@ -10,13 +10,14 @@ import css from "./Overview.module.css";
 const Overview = ({ data, lat, lon, mode, onSelectMode }) => {
   return (
     <div className={css.overview}>
-      <div className={css.weather}>
-        <Weather lat={lat} lon={lon} />
-      </div>
+      <Weather className={css.weather} lat={lat} lon={lon} />
       <BarChart className={css.data} data={data} />
-      <Section title="Event History" className={css.graph}>
-        <LineChart data={data} mode={mode} onSelectMode={onSelectMode} />
-      </Section>
+      <LineChart
+        className={css.graph}
+        data={data}
+        mode={mode}
+        onSelectMode={onSelectMode}
+      />
     </div>
   );
 };

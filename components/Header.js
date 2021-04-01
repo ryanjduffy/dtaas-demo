@@ -5,8 +5,11 @@ import css from "./Header.module.css";
 
 const cx = classnames.bind(css);
 
-const Header = ({ className, children }) => (
-  <div className={cx(css.header, className)}>{children}</div>
+const Header = ({ actions, className, children }) => (
+  <div className={cx(css.header, className)}>
+    <span className={css.text}>{children}</span>
+    {actions ? <span className={css.actions}>{actions}</span> : null}
+  </div>
 );
 
 export default Header;

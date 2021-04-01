@@ -3,10 +3,12 @@ import { Button } from "@material-ui/core";
 
 import Header from "../../components/Header";
 import Section from "../../components/Section";
-
-import css from "./Details.module.css";
 import typeToLabel from "../../util/eventTypes";
 import { mapboxToken } from "../../util/geo";
+
+import Counter from "./Counter";
+
+import css from "./Details.module.css";
 
 const mapStatusToLabel = (status) => {
   const map = {
@@ -43,78 +45,78 @@ const Details = ({ selected, onClose, onNotify }) => {
 
   return (
     <div className={css.details}>
-      <Header className={css.nav}>
-        <span>Event Information</span>
-        <span onClick={onClose}>X</span>
+      <Header className={css.nav} actions={<span onClick={onClose}>X</span>}>
+        Event Information
       </Header>
-      <div className={css.info}>
-        <Header className={css.infoHeader}>Event</Header>
-        <table>
-          <tbody>
-            <tr>
-              <td>Type</td>
-              <td>{typeToLabel(selected.eventType)}</td>
-            </tr>
-            <tr>
-              <td>Location</td>
-              <td>
-                <pre>
-                  {placeName &&
-                    placeName
-                      .split(",")
-                      .map((s) => s.trim())
-                      .slice(0, 2)
-                      .join("\n")}
-                </pre>
-              </td>
-            </tr>
-            <tr>
-              <td>Date</td>
-              <td>{new Date(selected.ts).toLocaleDateString()}</td>
-            </tr>
-            <tr>
-              <td>Time</td>
-              <td>{new Date(selected.ts).toLocaleTimeString()}</td>
-            </tr>
-            <tr>
-              <td>Status</td>
-              <td>{mapStatusToLabel(selected.status)}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div className={css.infoActions}>
-          {!selected.status || selected.status === "open" ? (
-            <>
-              <Button
-                className={css.button}
-                variant="contained"
-                onClick={onNotify}
-              >
-                Notify SMD
-              </Button>
-              <Button
-                className={css.button}
-                variant="contained"
-                onClick={onNotify}
-              >
-                Notify SFPD
-              </Button>
-            </>
-          ) : null}
-        </div>
-      </div>
-      <Section className={css.reports} title="Vehicles Report">
-        <div className={css.counterWrapper}>
-          <div className={css.counter}>19</div>
-          <span>Vehicles reported this hazard</span>
+      <Section title="Event" className={css.info}>
+        <div className={css.infoBody}>
+          <table>
+            <tbody>
+              <tr>
+                <td>Type</td>
+                <td>{typeToLabel(selected.eventType)}</td>
+              </tr>
+              <tr>
+                <td>Location</td>
+                <td>
+                  <pre>
+                    {placeName &&
+                      placeName
+                        .split(",")
+                        .map((s) => s.trim())
+                        .slice(0, 2)
+                        .join("\n")}
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td>Date</td>
+                <td>{new Date(selected.ts).toLocaleDateString()}</td>
+              </tr>
+              <tr>
+                <td>Time</td>
+                <td>{new Date(selected.ts).toLocaleTimeString()}</td>
+              </tr>
+              <tr>
+                <td>Status</td>
+                <td>{mapStatusToLabel(selected.status)}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div className={css.infoActions}>
+            {!selected.status || selected.status === "open" ? (
+              <>
+                <Button
+                  className={css.button}
+                  variant="contained"
+                  onClick={onNotify}
+                >
+                  Notify SMD
+                </Button>
+                <Button
+                  className={css.button}
+                  variant="contained"
+                  onClick={onNotify}
+                >
+                  Notify SFPD
+                </Button>
+              </>
+            ) : null}
+          </div>
         </div>
       </Section>
-      <Section className={css.delays} title="Traffic Created">
-        <div className={css.counterWrapper}>
-          <div className={css.counter + " " + css.warning}>{delay}</div>
-          <span>delay in minutes</span>
-        </div>
-      </Section>
+      <Counter
+        className={css.reports}
+        title="Vehicles Report"
+        count={19}
+        label="Vehicles reported this hazard"
+      />
+      <Counter
+        className={css.delays}
+        title="Traffic Created"
+        count={delay}
+        label="delay in minute"
+      />
       <Section className={css.visualization} title="Event Visualization">
         {selected.eventVideoURL ? (
           <video controls className={css.video}>
