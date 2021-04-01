@@ -1,8 +1,25 @@
 .dialog {
   position: absolute;
   transform: translate(-50%, -50%);
-  z-index: 100;
   cursor: pointer;
+  height: 24px;
+  width: 24px;
+}
+
+.dialog svg {
+  height: 100%;
+  width: 100%;
+  transform: scale(1);
+  transition: transform 100ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+
+.dialog.selected {
+  color: var(--background-header);
+}
+
+.dialog.selected svg {
+  --scale: 0.375;
+  transform: translateY(calc(var(--scale) * -100%)) scale(calc(1 + var(--scale) * 2));
 }
 
 .content {
@@ -15,6 +32,15 @@
   font-size: 14px;
   background: var(--background-secondary);
   color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.dialog.active {
+  z-index: 2;
+}
+
+.dialog.selected {
+  z-index: 1;
 }
 
 .dialog.active .content {
@@ -71,4 +97,18 @@
 
 .select.hasSelected {
   display: none;
+}
+
+
+.map :global(.MuiInputBase-root),
+.map :global(.MuiIconButton-root) {
+  color: var(--text-primary);
+}
+
+.map :global(.MuiInputBase-input):not(:focus)::placeholder {
+  opacity: 1;
+}
+
+.map :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--text-primary);
 }

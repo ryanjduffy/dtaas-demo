@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "@material-ui/core";
 
 import Header from "../../components/Header";
@@ -35,6 +35,7 @@ function useReverseGeocoding({ token, lat, lon }) {
 }
 
 const Details = ({ selected, onClose, onNotify }) => {
+  const delay = useMemo(() => Math.floor(Math.random() * 10), [selected._id]);
   const { placeName } = useReverseGeocoding({
     token: mapboxToken,
     ...selected.location,
@@ -62,6 +63,7 @@ const Details = ({ selected, onClose, onNotify }) => {
                     placeName
                       .split(",")
                       .map((s) => s.trim())
+                      .slice(0, 2)
                       .join("\n")}
                 </pre>
               </td>
@@ -102,22 +104,34 @@ const Details = ({ selected, onClose, onNotify }) => {
         </div>
       </div>
       <Section className={css.reports} title="Vehicles Report">
-        <div className={css.counter}>19</div>
+        <div className={css.counterWrapper}>
+          <div className={css.counter}>19</div>
+          <span>Vehicles reported this hazard</span>
+        </div>
       </Section>
       <Section className={css.delays} title="Traffic Created">
-        <div className={css.counter}>10</div>
+        <div className={css.counterWrapper}>
+          <div className={css.counter + " " + css.warning}>{delay}</div>
+          <span>delay in minutes</span>
+        </div>
       </Section>
       <Section className={css.visualization} title="Event Visualization">
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          No Image Available
-        </div>
+        {selected.eventVideoURL ? (
+          <video controls className={css.video}>
+            <source src={selected.eventVideoURL} />
+          </video>
+        ) : (
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            No Image Available
+          </div>
+        )}
       </Section>
     </div>
   );

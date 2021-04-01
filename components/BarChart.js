@@ -84,9 +84,10 @@ function BarChart({ className, data }) {
   const grouped = useMemo(() => {
     return data.reduce((acc, d) => {
       if (!acc[d.eventType]) {
-        acc[d.eventType] = { closed: 0, inProgress: 0, open: 0 };
+        acc[d.eventType] = { closed: 0, inProgress: 0, open: 0, total: 0 };
       }
       acc[d.eventType][d.status || "open"]++;
+      acc[d.eventType].total++;
       return acc;
     }, {});
   }, [data]);
@@ -100,9 +101,14 @@ function BarChart({ className, data }) {
     <Section className={cx(className, "barChart")} title="Event Status">
       <div className={css.container}>
         {Object.keys(grouped)
-          .sort((a, b) => typeToLabel(a).localeCompare(typeToLabel(b)))
-          .map((type, i) => (
-            <React.Fragment key={"event-status-" + type + i}>
+          .sort((a, b) => {
+            return (
+              grouped[b].total - grouped[a].total ||
+              typeToLabel(a).localeCompare(typeToLabel(b))
+            );
+          })
+          .map((type) => (
+            <React.Fragment key={"event-status-" + type}>
               <label>{typeToLabel(type)}</label>
               <TypeChart max={max} group={grouped[type]} />
             </React.Fragment>

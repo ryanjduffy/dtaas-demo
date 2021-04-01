@@ -43,7 +43,7 @@ copy(Array.from({length: 50}).flatMap((_, i) => {
 }).join('\n') + "\n")
 */
 
-function renderPoints(points, onSelect) {
+function renderPoints(points, selected, onSelect) {
   return ({ viewport }) => {
     // calculate render bounds as 10% larger than the viewport to filter renderable pins
     const bounds = viewport.getBounds();
@@ -79,6 +79,7 @@ function renderPoints(points, onSelect) {
                 style={{ left, top }}
                 point={p}
                 onSelect={onSelect}
+                selected={selected === p}
               />
             );
 
@@ -178,7 +179,7 @@ function Map({
             layers={[scatter]}
             onViewStateChange={({ viewState }) => onZoom(viewState.zoom)}
           >
-            {renderPoints(data, handleSelect)}
+            {renderPoints(data, selected, handleSelect)}
             <StaticMap
               mapboxApiAccessToken={mapboxToken}
               mapOptions={{

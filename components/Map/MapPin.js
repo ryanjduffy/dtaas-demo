@@ -6,7 +6,7 @@ import React, {
   useLayoutEffect,
   useMemo,
   useRef,
-  useState
+  useState,
 } from "react";
 
 import typeToLabel from "../../util/eventTypes";
@@ -54,7 +54,7 @@ function useTooltipState(defaultValue = undefined, timeout = 800) {
   return [value, show, hide];
 }
 
-function MapPin({ onSelect, point, ...rest }) {
+function MapPin({ onSelect, point, selected, ...rest }) {
   const ref = useRef(null);
   const [active, show, hide] = useTooltipState(false);
   const [side, setSide] = useState("bottomRight");
@@ -73,8 +73,11 @@ function MapPin({ onSelect, point, ...rest }) {
   return (
     <div
       {...rest}
-      className={cx({ dialog: true, active }, side)}
-      onClick={() => onSelect(point)}
+      className={cx({ dialog: true, active, selected }, side)}
+      onClick={() => {
+        hide();
+        onSelect(point);
+      }}
       onMouseOver={show}
       onMouseOut={hide}
       ref={ref}

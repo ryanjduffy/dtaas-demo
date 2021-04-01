@@ -18,7 +18,7 @@ const INITIAL_VIEW_STATE = {
   latitude: 37.78800921252298,
   zoom: 14,
   pitch: 0,
-  bearing: 0
+  bearing: 0,
 };
 
 function App() {
@@ -106,8 +106,8 @@ function App() {
             count: doc_count,
             coordinates: [
               (maxLon - minLon) / 2 + minLon,
-              (maxLat - minLat) / 2 + minLat
-            ]
+              (maxLat - minLat) / 2 + minLat,
+            ],
           };
         });
       })
@@ -155,7 +155,7 @@ function App() {
       setViewState((current) =>
         withTransition({
           ...current,
-          ...INITIAL_VIEW_STATE
+          ...INITIAL_VIEW_STATE,
         })
       );
     }
@@ -172,7 +172,7 @@ function App() {
         <div style={{ flex: 1 }} />
         <Notifications recent={recent} onSelect={handleSelectNotification} />
         <img
-          src="https://i.pravatar.cc/32?img=16"
+          src="https://i.pravatar.cc/40?img=16"
           alt="avatar"
           className={css.avatar}
         />
