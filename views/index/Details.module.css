@@ -4,11 +4,18 @@
 
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: 43px 3fr 2fr 3fr;
+  grid-template-rows: 43px 3fr 2fr 4fr;
   grid-gap: 24px;
   position: relative;
   z-index: 0;
   padding-left: 24px;
+}
+
+.details pre {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
 }
 
 .details::before {
@@ -72,6 +79,7 @@
 
 .info td:first-child {
   text-align: right;
+  align-self: flex-start;
 }
 
 .info td:last-child {
@@ -103,7 +111,21 @@
   text-align: center;
 }
 
+.counterWrapper {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .details .visualization {
   grid-row: 4;
   grid-column: 1 / 3;
+}
+
+.video {
+  flex: 1 1 auto;
+  height: 0;
+  margin: 0 -16px -16px;
 }

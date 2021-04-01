@@ -13,7 +13,9 @@ html,
 body {
   height: 100vh;
   width: 100vw;
+  margin: 0;
 
   background-color: var(--background-primary);
   font-family: "Lato", sans-serif;
+  font-size: 16px;
 }

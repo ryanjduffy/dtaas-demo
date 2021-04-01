@@ -7,7 +7,7 @@ import {
   VictoryChart,
   VictoryStack,
   VictoryArea,
-  VictoryTheme
+  VictoryTheme,
 } from "victory";
 
 import useChartResize from "./useChartResize.ts";
@@ -128,16 +128,16 @@ function LineChart({ className, data, mode, onSelectMode }) {
             style={{
               grid: { stroke: "transparent" },
               tickLabels: {
-                fill: "var(--text-secondary)"
-              }
+                fill: "var(--text-secondary)",
+              },
             }}
           />
           <VictoryAxis
             dependentAxis
             style={{
               tickLabels: {
-                fill: "var(--text-secondary)"
-              }
+                fill: "var(--text-secondary)",
+              },
             }}
           />
           <VictoryStack colorScale={["#43d3bd"]}>

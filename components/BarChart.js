@@ -5,7 +5,7 @@ import {
   VictoryChart,
   VictoryBar,
   VictoryGroup,
-  VictoryTheme
+  VictoryTheme,
 } from "victory";
 
 import Section from "../components/Section";
@@ -18,8 +18,8 @@ const cx = classnames.bind(css);
 
 const barStyle = {
   labels: {
-    fill: "var(--text-secondary)"
-  }
+    fill: "var(--text-secondary)",
+  },
 };
 
 // Always use the final value for the bar label
@@ -42,7 +42,7 @@ function TypeChart({ group, max }) {
             axis: { stroke: "transparent" },
             ticks: { stroke: "transparent" },
             tickLabels: { fill: "transparent" },
-            grid: { stroke: "transparent" }
+            grid: { stroke: "transparent" },
           }}
         />
         <VictoryGroup
@@ -51,7 +51,7 @@ function TypeChart({ group, max }) {
           style={{ data: { width: 3 } }}
           colorScale={["#fe012e", "#ff9a00", "#51ff87"]}
           animate={{
-            duration: 2000
+            duration: 2000,
           }}
         >
           <VictoryBar
@@ -63,8 +63,8 @@ function TypeChart({ group, max }) {
             data={[
               {
                 x: 1,
-                y: group.inProgress
-              }
+                y: group.inProgress,
+              },
             ]}
             style={barStyle}
             labels={formatLabel(group.inProgress)}

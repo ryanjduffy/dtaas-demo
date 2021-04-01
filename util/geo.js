@@ -5,6 +5,9 @@
 
 //input object is the z/x/y notation for a map tile
 
+const mapboxToken =
+  "pk.eyJ1IjoicnlhbmpkdWZmeSIsImEiOiJja2V5Z2s3a3IwMXFtMnJsZXNkZWJua2NlIn0.XTbixJu__DE2mzV15eH5sg";
+
 function boundsFromTile(z, x, y) {
   const bounds = tileBounds(z, x, y);
   const mins = metersToLatLng(bounds[0]);
@@ -14,7 +17,7 @@ function boundsFromTile(z, x, y) {
     minLat: mins[1],
     maxLat: maxs[1],
     minLng: mins[0],
-    maxLng: maxs[0]
+    maxLng: maxs[0],
   };
 }
 
@@ -45,4 +48,4 @@ function pixelsToMeters(z, x, y) {
   return [mx, my];
 }
 
-export { boundsFromTile };
+export { boundsFromTile, mapboxToken };

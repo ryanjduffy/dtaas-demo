@@ -8,9 +8,9 @@ import useElasticSearch from "../components/useElasticSearch";
 import useNotifications from "../components/useNotifications";
 import * as time from "../util/time";
 
-import Details from "./index/Details";
-import Overview from "./index/Overview";
-import css from "./index/index.module.css";
+import Details from "../views/index/Details";
+import Overview from "../views/index/Overview";
+import css from "../views/index/index.module.css";
 
 // Viewport settings
 const INITIAL_VIEW_STATE = {
@@ -18,11 +18,11 @@ const INITIAL_VIEW_STATE = {
   latitude: 37.78800921252298,
   zoom: 14,
   pitch: 0,
-  bearing: 0
+  bearing: 0,
 };
 
 function App() {
-  const [mode, setMode] = useState("month");
+  const [mode, setMode] = useState("week");
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selected, setSelected] = useState();
   const [zoom, setZoom] = useState(INITIAL_VIEW_STATE.zoom);
@@ -97,7 +97,7 @@ function App() {
   }, [fetchData, timeFilter, setData]);
 
   useEffect(() => {
-    fetchAggregate(Math.round((zoom * 12) / 30) + 1, timeFilter)
+    fetchAggregate(Math.round((zoom * 12) / 30) + 1, [timeFilter])
       .then((buckets) => {
         return buckets.map(({ key, doc_count }) => {
           const [minLat, minLon, maxLat, maxLon] = geohash.decode_bbox(key);
@@ -106,8 +106,8 @@ function App() {
             count: doc_count,
             coordinates: [
               (maxLon - minLon) / 2 + minLon,
-              (maxLat - minLat) / 2 + minLat
-            ]
+              (maxLat - minLat) / 2 + minLat,
+            ],
           };
         });
       })
@@ -155,7 +155,7 @@ function App() {
       setViewState((current) =>
         withTransition({
           ...current,
-          ...INITIAL_VIEW_STATE
+          ...INITIAL_VIEW_STATE,
         })
       );
     }
@@ -172,7 +172,7 @@ function App() {
         <div style={{ flex: 1 }} />
         <Notifications recent={recent} onSelect={handleSelectNotification} />
         <img
-          src="https://i.pravatar.cc/32?img=16"
+          src="https://i.pravatar.cc/40?img=16"
           alt="avatar"
           className={css.avatar}
         />

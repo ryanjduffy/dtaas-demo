@@ -8,7 +8,7 @@ function useElasticSearch({ size = 200 } = {}) {
 
   const headers = () => ({
     Authorization: `Basic ${btoa("elastic:yJVP3ctRZPgq249CWA7cf0Jm")}`,
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   });
 
   const fetchData = useCallback(
@@ -21,14 +21,19 @@ function useElasticSearch({ size = 200 } = {}) {
           sort: [{ ts: "desc" }],
           query: {
             bool: {
-              filter
-            }
-          }
-        })
+              filter,
+            },
+          },
+        }),
       })
         .then((resp) => resp.json())
         .then((json) => {
-          return json.hits.hits.map((d) => ({ _id: d._id, ...d._source }));
+          return json.hits.hits.map((d) => ({
+            _id: d._id,
+            ...d._source,
+            // patch quoted eventTypes
+            eventType: d._source.eventType.replace(/^"/, "").replace(/"$/, ""),
+          }));
         });
     },
     [searchUrl, size]
@@ -41,15 +46,20 @@ function useElasticSearch({ size = 200 } = {}) {
         method: "POST",
         body: JSON.stringify({
           size: 0,
+          query: {
+            bool: {
+              filter
+            }
+          },
           aggregations: {
             grid: {
               geohash_grid: {
                 field: "location",
-                precision: precision
-              }
-            }
-          }
-        })
+                precision: precision,
+              },
+            },
+          },
+        }),
       })
         .then((resp) => resp.json())
         .then((json) => {
@@ -64,7 +74,7 @@ function useElasticSearch({ size = 200 } = {}) {
       return fetch(`${docUrl}/${_id}`, {
         method: "POST",
         headers: headers(),
-        body: JSON.stringify(doc)
+        body: JSON.stringify(doc),
       });
     },
     [docUrl]
@@ -73,7 +83,7 @@ function useElasticSearch({ size = 200 } = {}) {
   return {
     fetchAggregate,
     fetchData,
-    update
+    update,
   };
 }
 

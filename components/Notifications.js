@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import Popover from "@material-ui/core/Popover";
 import { makeStyles } from "@material-ui/core/styles";
+import { typeToLabel } from "../util/eventTypes";
 
 import css from "./Notifications.module.css";
 
@@ -76,7 +77,7 @@ function Notifications({ onSelect, recent }) {
                 style={{ margin: "16px 0", width: 200 }}
                 onClick={() => onSelect(item)}
               >
-                New {item.eventType}
+                New {typeToLabel(item.eventType)}
               </div>
             ))
           : "No new incidents"}

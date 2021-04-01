@@ -1,300 +1,300 @@
 [
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423884552,
     "lon": -122.41026665034116,
     "lat": 37.78309912200654
   },
   {
-    "type": "pothole",
+    "type": "Pothole",
     "ts": 1615423884644,
     "lon": -122.41094125424775,
     "lat": 37.76245109274888
   },
   {
-    "type": "pothole",
+    "type": "Pothole",
     "ts": 1615423884574,
     "lon": -122.43138259113451,
     "lat": 37.78322050936542
   },
   {
-    "type": "accident",
+    "type": "BrokenDownSedan",
     "ts": 1615423884619,
     "lon": -122.39549291554198,
     "lat": 37.76676042798152
   },
   {
-    "type": "construction",
+    "type": "TrafficCone",
     "ts": 1615423884666,
     "lon": -122.42139598446781,
     "lat": 37.768095787071104
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423884966,
     "lon": -122.4355668802067,
     "lat": 37.78401372995395
   },
   {
-    "type": "construction",
+    "type": "TrafficCone",
     "ts": 1615423885072,
     "lon": -122.40702279674257,
     "lat": 37.780049737007694
   },
   {
-    "type": "construction",
+    "type": "TrafficCone",
     "ts": 1615423885163,
     "lon": -122.43853111348879,
     "lat": 37.7938786127497
   },
   {
-    "type": "accident",
+    "type": "BrokenDownSedan",
     "ts": 1615423884578,
     "lon": -122.39804845861813,
     "lat": 37.79261197492924
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423884960,
     "lon": -122.40935566097323,
     "lat": 37.80725665318673
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423884816,
     "lon": -122.40298343926534,
     "lat": 37.77046911681612
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423885475,
     "lon": -122.41989041089523,
     "lat": 37.787703421445194
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423885014,
     "lon": -122.42141743750224,
     "lat": 37.79403740114833
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423885198,
     "lon": -122.41811098238216,
     "lat": 37.76307617000635
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423885732,
     "lon": -122.42663627379083,
     "lat": 37.80161311348845
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423885052,
     "lon": -122.44056882416358,
     "lat": 37.76051509718596
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423885461,
     "lon": -122.43391563610867,
     "lat": 37.790312453698206
   },
   {
-    "type": "accident",
+    "type": "BrokenDownSedan",
     "ts": 1615423886246,
     "lon": -122.4048733003471,
     "lat": 37.787843299241196
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423885791,
     "lon": -122.40399659308511,
     "lat": 37.80637608679922
   },
   {
-    "type": "construction",
+    "type": "TrafficCone",
     "ts": 1615423886256,
     "lon": -122.39593516242311,
     "lat": 37.761290546003465
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423886355,
     "lon": -122.4338628941675,
     "lat": 37.79258539478868
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423885673,
     "lon": -122.4217570009123,
     "lat": 37.77313433844853
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423886469,
     "lon": -122.39626502329835,
     "lat": 37.765102985096
   },
   {
-    "type": "accident",
+    "type": "BrokenDownSedan",
     "ts": 1615423884760,
     "lon": -122.43903373328774,
     "lat": 37.785534100865206
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423886620,
     "lon": -122.40813137631778,
     "lat": 37.76353271567492
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423887002,
     "lon": -122.39719641194436,
     "lat": 37.779010084420854
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423885685,
     "lon": -122.41462266222477,
     "lat": 37.79212061482025
   },
   {
-    "type": "pothole",
+    "type": "Pothole",
     "ts": 1615423884597,
     "lon": -122.44022616278109,
     "lat": 37.80460670668282
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423886865,
     "lon": -122.44048926082912,
     "lat": 37.764449054005105
   },
   {
-    "type": "construction",
+    "type": "TrafficCone",
     "ts": 1615423885275,
     "lon": -122.40945706394734,
     "lat": 37.79861134659649
   },
   {
-    "type": "pothole",
+    "type": "Pothole",
     "ts": 1615423886683,
     "lon": -122.42702055841377,
     "lat": 37.78826938088176
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423887404,
     "lon": -122.43971712579275,
     "lat": 37.77253141474471
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423884684,
     "lon": -122.39620428798342,
     "lat": 37.767216753973514
   },
   {
-    "type": "accident",
+    "type": "BrokenDownSedan",
     "ts": 1615423884793,
     "lon": -122.39292396801703,
     "lat": 37.78022029284413
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423886739,
     "lon": -122.4275447893337,
     "lat": 37.785146736060945
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423886346,
     "lon": -122.4361696362999,
     "lat": 37.788077010603004
   },
   {
-    "type": "pothole",
+    "type": "Pothole",
     "ts": 1615423885537,
     "lon": -122.41881518516254,
     "lat": 37.806606329174414
   },
   {
-    "type": "construction",
+    "type": "TrafficCone",
     "ts": 1615423888187,
     "lon": -122.42778238630153,
     "lat": 37.779773766512946
   },
   {
-    "type": "accident",
+    "type": "BrokenDownSedan",
     "ts": 1615423886511,
     "lon": -122.4222679242536,
     "lat": 37.780360363557264
   },
   {
-    "type": "construction",
+    "type": "TrafficCone",
     "ts": 1615423885293,
     "lon": -122.42369525308737,
     "lat": 37.76861976696097
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423884974,
     "lon": -122.4203026333964,
     "lat": 37.79312488483464
   },
   {
-    "type": "accident",
+    "type": "BrokenDownSedan",
     "ts": 1615423887640,
     "lon": -122.41178559381522,
     "lat": 37.77539391713238
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423885239,
     "lon": -122.43469393008435,
     "lat": 37.76996466207178
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423886641,
     "lon": -122.43041863038079,
     "lat": 37.799505172967955
   },
   {
-    "type": "pothole",
+    "type": "Pothole",
     "ts": 1615423886260,
     "lon": -122.41002479524185,
     "lat": 37.787915990027486
   },
   {
-    "type": "accident",
+    "type": "BrokenDownSedan",
     "ts": 1615423886956,
     "lon": -122.4024021751992,
     "lat": 37.77510724239238
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423885140,
     "lon": -122.42804960955243,
     "lat": 37.77459879768144
   },
   {
-    "type": "pothole",
+    "type": "Pothole",
     "ts": 1615423888721,
     "lon": -122.4299165400686,
     "lat": 37.76905714392264
   },
   {
-    "type": "emergency",
+    "type": "AmbulanceSedan",
     "ts": 1615423889229,
     "lon": -122.40463229347101,
     "lat": 37.76791898392349
   },
   {
-    "type": "bicycle",
+    "type": "Bicycle",
     "ts": 1615423887454,
     "lon": -122.42316549343911,
     "lat": 37.79760427901041

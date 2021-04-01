@@ -1,22 +1,46 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "@material-ui/core";
 
 import Header from "../../components/Header";
 import Section from "../../components/Section";
 
 import css from "./Details.module.css";
+import typeToLabel from "../../util/eventTypes";
+import { mapboxToken } from "../../util/geo";
 
 const mapStatusToLabel = (status) => {
   const map = {
     open: "Active",
     inProgress: "In Progress",
-    closed: "Closed"
+    closed: "Closed",
   };
 
   return map[status] || map.open;
 };
 
+function useReverseGeocoding({ token, lat, lon }) {
+  const [placeName, setPlaceName] = useState();
+  useEffect(() => {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${token}`
+    )
+      .then((resp) => resp.json())
+      .then((data) => {
+        const f = data.features[0];
+        setPlaceName(f && f.place_name);
+      });
+  }, [lat, lon]);
+
+  return { placeName };
+}
+
 const Details = ({ selected, onClose, onNotify }) => {
+  const delay = useMemo(() => Math.floor(Math.random() * 10), [selected._id]);
+  const { placeName } = useReverseGeocoding({
+    token: mapboxToken,
+    ...selected.location,
+  });
+
   return (
     <div className={css.details}>
       <Header className={css.nav}>
@@ -29,11 +53,20 @@ const Details = ({ selected, onClose, onNotify }) => {
           <tbody>
             <tr>
               <td>Type</td>
-              <td>{selected.eventType}</td>
+              <td>{typeToLabel(selected.eventType)}</td>
             </tr>
             <tr>
               <td>Location</td>
-              <td>???</td>
+              <td>
+                <pre>
+                  {placeName &&
+                    placeName
+                      .split(",")
+                      .map((s) => s.trim())
+                      .slice(0, 2)
+                      .join("\n")}
+                </pre>
+              </td>
             </tr>
             <tr>
               <td>Date</td>
@@ -71,22 +104,34 @@ const Details = ({ selected, onClose, onNotify }) => {
         </div>
       </div>
       <Section className={css.reports} title="Vehicles Report">
-        <div className={css.counter}>19</div>
+        <div className={css.counterWrapper}>
+          <div className={css.counter}>19</div>
+          <span>Vehicles reported this hazard</span>
+        </div>
       </Section>
       <Section className={css.delays} title="Traffic Created">
-        <div className={css.counter}>10</div>
+        <div className={css.counterWrapper}>
+          <div className={css.counter + " " + css.warning}>{delay}</div>
+          <span>delay in minutes</span>
+        </div>
       </Section>
       <Section className={css.visualization} title="Event Visualization">
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          No Image Available
-        </div>
+        {selected.eventVideoURL ? (
+          <video controls className={css.video}>
+            <source src={selected.eventVideoURL} />
+          </video>
+        ) : (
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            No Image Available
+          </div>
+        )}
       </Section>
     </div>
   );
