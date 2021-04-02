@@ -69,6 +69,7 @@
 }
 
 .info tbody {
+  margin: 8px 0;
   overflow-y: auto;
   display: grid;
   grid-template-columns: 80px auto;
@@ -81,9 +82,12 @@
   display: contents;
 }
 
+.info td {
+  align-self: flex-start;
+}
+
 .info td:first-child {
   text-align: right;
-  align-self: flex-start;
 }
 
 .info td:last-child {
@@ -133,4 +137,14 @@
   flex: 1 1 auto;
   height: 0;
   margin: 0 -16px -16px;
+}
+
+.placeholder {
+  flex: 1 1 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }

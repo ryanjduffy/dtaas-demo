@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 
 import Header from "../../components/Header";
 import Section from "../../components/Section";
-import typeToLabel from "../../util/eventTypes";
+import typeToLabel, { typeToPlaceholderImage } from "../../util/eventTypes";
 import { mapboxToken } from "../../util/geo";
 
 import Counter from "./Counter";
@@ -42,6 +42,8 @@ const Details = ({ selected, onClose, onNotify }) => {
     token: mapboxToken,
     ...selected.location,
   });
+
+  const placeholder = typeToPlaceholderImage(selected.eventType);
 
   return (
     <div className={css.details}>
@@ -124,14 +126,12 @@ const Details = ({ selected, onClose, onNotify }) => {
           </video>
         ) : (
           <div
+            className={css.placeholder}
             style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              backgroundImage: `url(${placeholder})`,
             }}
           >
-            No Image Available
+            {placeholder ? "" : "No Image Available"}
           </div>
         )}
       </Section>
