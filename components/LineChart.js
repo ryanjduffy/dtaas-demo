@@ -99,10 +99,10 @@ function LineChart({ className, data, mode, onSelectMode }) {
             onChange={(ev) => onSelectMode(ev.target.value)}
             placeholder="Timeframe"
           >
-            <MenuItem value="day">Today</MenuItem>
-            <MenuItem value="week">This Week</MenuItem>
-            <MenuItem value="month">This Month</MenuItem>
-            <MenuItem value="quarter">This Quarter</MenuItem>
+            <MenuItem value="day">Last 24 Hours</MenuItem>
+            <MenuItem value="week">Last 7 Days</MenuItem>
+            <MenuItem value="month">Last 30 Days</MenuItem>
+            <MenuItem value="quarter">Last 90 Days</MenuItem>
           </Select>
         </FormControl>
       }

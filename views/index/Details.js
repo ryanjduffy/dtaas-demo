@@ -121,7 +121,7 @@ const Details = ({ selected, onClose, onNotify }) => {
       />
       <Section className={css.visualization} title="Event Visualization">
         {selected.eventVideoURL ? (
-          <video controls className={css.video}>
+          <video controls className={css.video} key={selected.eventVideoURL}>
             <source src={selected.eventVideoURL} />
           </video>
         ) : (
