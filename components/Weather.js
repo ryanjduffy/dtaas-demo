@@ -22,9 +22,9 @@ function useOpenWeather({ apiKey, lat, lon, units = "metric" }) {
 }
 
 const icons = {
-  Cloudy: "/images/Cloudy_Off.svg",
-  Clear: "/images/Sunny_Off.svg",
-  Rain: "/images/SunnyRainy_Off.svg",
+  Cloudy: "./images/Cloudy_Off.svg",
+  Clear: "./images/Sunny_Off.svg",
+  Rain: "./images/SunnyRainy_Off.svg",
 };
 
 function Weather({ className, lat, lon }) {

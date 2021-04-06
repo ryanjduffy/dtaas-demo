@@ -41,6 +41,9 @@ function Notifications({ onSelect, recent }) {
     <div>
       <div
         className={css.notification}
+        style={{
+          backgroundImage: "url(./images/Alarm_Off.svg)",
+        }}
         aria-owns={open ? "event-popover" : undefined}
         aria-haspopup="true"
         onMouseEnter={handlePopoverOpen}
