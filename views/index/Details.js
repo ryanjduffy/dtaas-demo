@@ -37,11 +37,14 @@ function useReverseGeocoding({ token, lat, lon }) {
 }
 
 const Details = ({ selected, onClose, onNotify }) => {
+  const [invalidVideo, setInvalidVideo] = useState(false);
   const delay = useMemo(() => Math.floor(Math.random() * 10), [selected._id]);
   const { placeName } = useReverseGeocoding({
     token: mapboxToken,
     ...selected.location,
   });
+
+  useEffect(() => setInvalidVideo(false), [selected]);
 
   const placeholder = typeToPlaceholderImage(selected.eventType);
 
@@ -120,8 +123,13 @@ const Details = ({ selected, onClose, onNotify }) => {
         label="delay in minute"
       />
       <Section className={css.visualization} title="Event Visualization">
-        {selected.eventVideoURL ? (
-          <video controls className={css.video} key={selected.eventVideoURL}>
+        {selected.eventVideoURL && !invalidVideo ? (
+          <video
+            controls
+            className={css.video}
+            key={selected.eventVideoURL}
+            onError={() => setInvalidVideo(true)}
+          >
             <source src={selected.eventVideoURL} />
           </video>
         ) : (
