@@ -81,10 +81,26 @@ function useElasticSearch({ size = 500 } = {}) {
     [docUrl]
   );
 
+  const remove = useCallback(
+    ({ _id }) => {
+      return fetch(`${docUrl}/${_id}`, {
+        method: "DELETE",
+        headers: headers(),
+      });
+    },
+    [docUrl]
+  );
+
+  global.ELASTIC_API = {
+    update,
+    remove,
+  };
+
   return {
     fetchAggregate,
     fetchData,
     update,
+    remove,
   };
 }
 

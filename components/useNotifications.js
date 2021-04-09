@@ -19,8 +19,10 @@ function useNotifications({ onNewItems }) {
               0
             );
             setRecentTimestamp(lastTimestamp);
-            onNewItems(data);
-            setRecent((current) => [...current, ...data]);
+            const onlyNew = onNewItems(data);
+            if (onlyNew && onlyNew.length) {
+              setRecent((current) => [...current, ...onlyNew]);
+            }
           }
         }
       );

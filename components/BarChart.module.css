@@ -26,3 +26,8 @@
 .container > div:nth-of-type(2n) {
   background: rgba(255, 255, 255, 0.12);
 }
+
+.container tspan {
+  /* override font scaling to avoid it becoming too large */
+  font-size: 12px !important;
+}

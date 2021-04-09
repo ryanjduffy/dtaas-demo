@@ -34,8 +34,29 @@ function App() {
 
   const { fetchData, fetchAggregate, update } = useElasticSearch({});
   const handleNewData = useCallback(
-    (d) => setData((current) => [...current, ...d]),
-    [setData]
+    (newData) => {
+      const filtered = [...newData];
+      // Copy data by mapping over it and replacing any updated entries. This
+      // will be a bit expensive as the size of data increases but should be
+      // okay for this prototype.
+      const updated = data.map((c) => {
+        const found = filtered.findIndex((n) => n._id === c._id);
+        if (found !== -1) {
+          return filtered.splice(found, 1)[0];
+        }
+
+        return c;
+      });
+      setData(updated);
+      setSelected(
+        (current) =>
+          (current && newData.find((d) => d._id === current._id)) || current
+      );
+
+      // Return the new entries to be displayed in the notification widget
+      return filtered;
+    },
+    [data, setData, setSelected]
   );
   const [recent, setRecent] = useNotifications({ onNewItems: handleNewData });
 
