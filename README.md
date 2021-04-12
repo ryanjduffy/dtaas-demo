@@ -25,6 +25,10 @@ Discrete components and hooks are included in the `./components` directory. Nota
 
 Run `npm run dev` to start a dev server which watches for local changes.
 
+### Codesandbox
+
+The repo is also mirrored at https://github.com/ryanjduffy/dtaas-demo. When that repo is updated, visiting https://codesandbox.io/s/github/ryanjduffy/dtaas-demo/tree/main should refresh the sandbox and make the updates available at https://f48mj.sse.codesandbox.io/.
+
 ### Build for deployment
 
 Run `npm run export` to create a deployable directory, `out`, of the application.
