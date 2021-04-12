@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 function useElasticSearch({ size = 500 } = {}) {
   // "https://0c58fde6b89c4428a26b6c5a39f52e87.us-west-1.aws.found.io:9243",
-  const base = "https://74q6kqoh6b.execute-api.us-west-2.amazonaws.com";
+  const base = "https://tx6c86kgld.execute-api.us-east-1.amazonaws.com";
   const searchUrl = `${base}/dt-events/_search`;
   const docUrl = `${base}/dt-events/_doc`;
 
