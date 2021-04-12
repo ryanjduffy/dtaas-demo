@@ -1,21 +1,32 @@
-# Hello World example
+# City Operations Demo App
 
-This example shows the most basic idea behind Next. We have 2 pages: `pages/index.js` and `pages/about.js`. The former responds to `/` requests and the latter to `/about`. Using `next/link` you can add hyperlinks between them with universal routing capabilities. The `day` directory shows that you can have subdirectories.
+A demo application to illustrate the possible use case of a city operations department managing the resolution of road hazards that were identified by connected vehicles.
 
-## Deploy your own
+## Technical Overview
 
-Deploy the example using [Vercel](https://vercel.com):
+The app is served by a single page, `./pages/index.js`, which contains two views: `./views/index/Overview,js` and `./views/index/Details.js`. The overview view includes the map and charts illustrating the current overall health of the road system. The details view is activated when the user selects a hazard and allows the user to dispatch a response to the hazard.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/vercel/next.js/tree/canary/examples/hello-world)
+Discrete components and hooks are included in the `./components` directory. Notably, the `useElasticSearch` hook includes the methods for fetching data from elastic and `useNotification` polls for new records.
 
-## How to use
+### External Dependencies
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+* Map is provided by Mapbox and rendered by `@deck.gl`. This currently uses a hard-coded Mapbox API key (owned by Ryan Duffy)
+* Line chart and bar chart are created using `victory` which renders responsive SVG charts
+* UI elements are build with `@material-ui`
 
-```bash
-npx create-next-app --example hello-world hello-world-app
-# or
-yarn create next-app --example hello-world hello-world-app
-```
+### Integrations
 
-Deploy it to the cloud with [Vercel](https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+* Data is pulled from an elastic search (owned by Steve Lemke)
+* API requests are routed through an AWS API Gateway (owned by Ryan Duffy) to mitigate CORS issues
+
+## Build and Deploy
+
+### Local Development
+
+Run `npm run dev` to start a dev server which watches for local changes.
+
+### Build for deployment
+
+Run `npm run export` to create a deployable directory, `out`, of the application.
+
+> This directory should be able to be deployed to any directory of a web server. If you encounter issues with deploying to subdirectories due to absolute paths, debug `assetPath` in `next.config.js`.
